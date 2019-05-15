@@ -2,6 +2,7 @@ package edu.handong.analysis;
 
 import edu.handong.analysis.datamodel.Course;
 import edu.handong.analysis.datamodel.Student;
+import java.util.ArrayList;
 
 public class HGUCoursePatternAnalyzer {
 	
@@ -21,8 +22,8 @@ public class HGUCoursePatternAnalyzer {
 
 	int numOfStudents;
 	int numOfCourses;
-	Student[] students;
-	Course[] courses;
+	ArrayList<Student> students = new ArrayList<Student>();
+	ArrayList<Course> courses = new ArrayList<Course>();
 	
 	/**
 	 * This method runs our analysis logic to get the list of student and course names from lines.
@@ -53,9 +54,9 @@ public class HGUCoursePatternAnalyzer {
 	 * @param lines
 	 * @return array of Student
 	 */
-	private Student[] initiateStudentArrayFromLines(String[] lines) {
+	private ArrayList<Student> initiateStudentArrayFromLines(String[] lines) {
 		
-		Student[] newStudents = new Student[numOfStudents];	// 배열 인스턴스
+		ArrayList<Student> newStudents = new ArrayList<Student>(numOfStudents);	// 배열 인스턴스
 		
 		int i = 0;
 		for (String line : lines)		// 라인마다 파싱하기 위한 for loop
@@ -66,7 +67,7 @@ public class HGUCoursePatternAnalyzer {
 			
 			if (!studentExist(newStudents, newStudent))		// 같은 이름을 찾지 못했을 경우, append.
 			{
-				newStudents[i] = newStudent;
+				newStudents.add(i, newStudent);
 				i++;
 			}
 		}
@@ -80,7 +81,7 @@ public class HGUCoursePatternAnalyzer {
 	 * @param student
 	 * @return boolean value. if student find, it returns true. or false.
 	 */
-	private boolean studentExist(Student[] students, Student student) {
+	private boolean studentExist(ArrayList<Student> students, Student student) {
 		for (Student existStudent : students) // 현재 등록된 student중에 같은 이름이 있는지 탐색.
 			if (existStudent != null && student.getName().contentEquals(existStudent.getName()))
 				return true;
@@ -92,8 +93,8 @@ public class HGUCoursePatternAnalyzer {
 	 * @param lines
 	 * @return array of Course
 	 */
-	private Course[] initiateCourseArrayFromLines(String[] lines) {
-		Course[] newCourses = new Course[numOfCourses];	// 배열 인스턴스
+	private ArrayList<Course> initiateCourseArrayFromLines(String[] lines) {
+		ArrayList<Course> newCourses = new ArrayList<Course>(numOfCourses);	// 배열 인스턴스
 		
 		int i = 0;
 		for (String line : lines)		// 라인마다 파싱하기 위한 for loop
@@ -104,7 +105,7 @@ public class HGUCoursePatternAnalyzer {
 			
 			if (!courseExist(newCourses, newCourse))		// 같은 이름을 찾지 못했을 경우, append.
 			{
-				newCourses[i] = newCourse;
+				newCourses.add(i, newCourse);
 				i++;
 			}
 		}
@@ -118,7 +119,7 @@ public class HGUCoursePatternAnalyzer {
 	 * @param course
 	 * @return boolean value. if student find, it returns true. or false.
 	 */
-	private boolean courseExist(Course[] courses, Course course) {
+	private boolean courseExist(ArrayList<Course> courses, Course course) {
 		for (Course existCourse : courses) // 현재 등록된 course중에 같은 course 이름이 있는지 탐색.
 			if (existCourse != null && course.getCourseName().contentEquals(existCourse.getCourseName()))
 				return true;
